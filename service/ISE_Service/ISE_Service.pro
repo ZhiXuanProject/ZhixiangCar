@@ -36,7 +36,6 @@ HEADERS += src/common/include/ise_common.h \
     src/services/include/ise_map_service.h \
     src/services/include/ise_media_service.h \
     src/services/include/ise_update_service.h \
-    src/services/include/ise_usb_service.h \
     src/services/include/ise_udp_service.h \
     src/services/include/ise_web_scribe_service.h \
     src/services/src/ise_dbus_service/vehiclenavdisplayadaptor.h \
@@ -55,7 +54,6 @@ SOURCES += src/common/src/ise_debug.cpp \
     src/services/src/ise_map_service/ise_map_service.cpp \
     src/services/src/ise_media_service/ise_media_service.cpp \
     src/services/src/ise_update_service/ise_update_service.cpp \
-    src/services/src/ise_usb_service/ise_usb_service.cpp \
     src/services/src/ise_udp_service/ise_udp_service.cpp \
     src/services/src/ise_web_scribe_service/ise_web_scribe_service.cpp \
     src/ISE_Service_Main.cpp \

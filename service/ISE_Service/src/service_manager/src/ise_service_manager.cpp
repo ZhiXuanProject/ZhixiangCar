@@ -8,7 +8,6 @@
 #include "ise_map_service.h"
 #include "ise_media_service.h"
 #include "ise_update_service.h"
-#include "ise_usb_service.h"
 #include "ise_web_scribe_service.h"
 
 namespace ise_service
@@ -125,20 +124,6 @@ namespace ise_service
              return false;
          }
 		m_ServiceMap.insert(map<ISE_UINT16, CIseServicePtr>::value_type(ISE_UPDATE_SERVICE_ID, pIseUpdateService));
-
-		//create ISE usb service and init it
-         CIseServicePtr pIseUsbService = static_cast<CIseServicePtr>(CIseUsbService::GetInstance());
-         if(pIseUsbService == ISE_NULL)
-         {
-             ISE_ERROR_TRACE("ISE usb Service create failed!");
-             return false;
-         }
-         if(pIseUsbService->Init((ISE_UINT16)ISE_USB_SERVICE_ID, "CIseUsbService") == ISE_FALSE)
-         {
-             ISE_ERROR_TRACE("ISE update Service initialize failed!");
-             return false;
-         }
-		m_ServiceMap.insert(map<ISE_UINT16, CIseServicePtr>::value_type(ISE_USB_SERVICE_ID, pIseUsbService));
 
 		//create ISE web_scrib service and init it
          CIseServicePtr pIseWebScribeService = static_cast<CIseServicePtr>(CIseWebScribeService::GetInstance());
