@@ -277,7 +277,7 @@ namespace ise_service
         ISE_UINT8             reserved;
 
     public:
-        ISE_CAN_COMMAND() : ISE_MSG_HEAD(ISE_CAN_SERVICE_ID, MESSAGE_ID_SOC, sizeof(*this))
+        ISE_CAN_COMMAND() : ISE_MSG_HEAD(ISE_CAN_SERVICE_ID, MESSAGE_ID, sizeof(*this))
         {
             /*DO NOTHING*/
         }
