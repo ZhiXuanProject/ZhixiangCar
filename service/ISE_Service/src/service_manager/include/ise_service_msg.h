@@ -1,7 +1,7 @@
-#ifndef __ISE_SERVICE_MSG_H__
-#define __ISE_SERVICE_MSG_H__
+#ifndef ISE_SERVICE_MSG_H
+#define ISE_SERVICE_MSG_H
 
-#include "ise_message_base.h"
+#include "ise_common.h"
 #include <QDBusArgument>
 #include <QDBusMetaType>
 #include <QPoint>
@@ -10,6 +10,7 @@
 
 namespace ise_service
 {
+    using namespace ise_common;
 	enum IseServiceID
 	{
 		ISE_SERVICE_ID_UNKNOWN = -1,
@@ -277,7 +278,7 @@ namespace ise_service
         ISE_UINT8             reserved;
 
     public:
-        ISE_CAN_COMMAND() : ISE_MSG_HEAD(ISE_CAN_SERVICE_ID, MESSAGE_ID, sizeof(*this))
+        ISE_CAN_COMMAND() : ISE_MSG_HEAD(MESSAGE_ID_SOC, sizeof(*this))
         {
             /*DO NOTHING*/
         }

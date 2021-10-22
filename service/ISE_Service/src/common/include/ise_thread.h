@@ -1,5 +1,5 @@
-#ifndef __ISE_THREAD_H__
-#define __ISE_THREAD_H__
+#ifndef ISE_THREAD_H
+#define ISE_THREAD_H
 
 #include "ise_utils.h"
 #include "ise_debug.h"
@@ -32,9 +32,9 @@ namespace ise_common
         ISE_BOOL                         Create(IseThreadRT routine, ISE_VOID *pParam);
         ISE_VOID                         Close();
         ISE_VOID                         WaitForDead();
-        ISE_BOOL                         GetThreadMessage(IseMessage &msg, ISE_UINT32 wait_time_ms = ISEOSPER_INFINITE);
+        ISE_BOOL                         GetThreadMessage(ISE_MSG_HEAD *&msg, ISE_UINT32 wait_time_ms = ISEOSPER_INFINITE);
         ISE_BOOL                         HaveThreadMessage();
-        ISE_BOOL                         SendThreadMessage(const IseMessage msg);
+        ISE_BOOL                         SendThreadMessage(ISE_MSG_HEAD *msg);
 
         std::string                      GetThreadName();
 
@@ -46,9 +46,9 @@ namespace ise_common
         std::string                     m_strThreadName;
         ISEThreadPrio                   m_ThreadPrio;
         IseThreadRT                     m_TheadRoutine;
-        ISE_VOID                       *m_pThreadParam;
+        ISE_VOID                        *m_pThreadParam;
         ISE_BOOL                        m_bMessageQueue;
-        CIseQueue<IseMessage>          *m_pMessageQueue;
+        CIseQueue<ISE_MSG_HEAD *>       *m_pMessageQueue;
     };
 }
 

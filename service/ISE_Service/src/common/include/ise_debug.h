@@ -1,5 +1,5 @@
-#ifndef __ISE_DEBUG_H__
-#define __ISE_DEBUG_H__
+#ifndef ISE_DEBUG_H
+#define ISE_DEBUG_H
 
 #include "ise_utils.h"
 #include <execinfo.h>
@@ -39,7 +39,7 @@ namespace ise_common
     #define ISE_INFO_TRACE(_Format, ...)     ROS_INFO(_Format, ##__VA_ARGS__)
     #define ISE_WARN_TRACE(_Format, ...)     ROS_WARN(_Format, ##__VA_ARGS__)
     #endif
-    
+
     #define ISE_ASSERT(_Expression, ...)     ( ( _Expression ) ? ( ( ISE_VOID )0 ) : \
                                               ISE_ASSERT_FAILED(#_Expression, ##__VA_ARGS__) )
 

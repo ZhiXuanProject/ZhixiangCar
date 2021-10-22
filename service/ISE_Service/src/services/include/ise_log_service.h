@@ -1,5 +1,5 @@
-#ifndef __ISE_LOG_SERVICE_H__
-#define __ISE_LOG_SERVICE_H__
+#ifndef ISE_LOG_SERVICE_H
+#define ISE_LOG_SERVICE_H
 
 #include "ise_service_base.h"
 
@@ -20,8 +20,6 @@ namespace ise_service
 
     public:
         virtual ISE_VOID       OnMessage(const ISE_MSG_HEAD *pPepMsg);
-		virtual ISE_VOID       Run();
-		ISE_BOOL               SendIseServiceMsg(ISE_MSG_HEAD *pServiceMsg);
 
 	private:
 		CIseQueue<ISE_MSG_HEAD *>          m_LogMessageQueue;

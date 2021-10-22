@@ -139,25 +139,7 @@ namespace ise_service
          }
 		m_ServiceMap.insert(map<ISE_UINT16, CIseServicePtr>::value_type(ISE_WEB_SCRIBE_SERVICE_ID, pIseWebScribeService));
 
-		ISE_INFO_TRACE("Initialzing Service Manager Thread...");
-        if(InitServiceManagerThread() == ISE_FALSE)
-        {
-            ISE_ERROR_TRACE("Service Manager initialize failed!");
-            goto ERROR_LINE;
-        }
-
         return ISE_TRUE;
-
-    ERROR_LINE:
-        if(m_pServiceManagerThread != nullptr)
-        {
-            /*Shutdown the thread....*/
-            m_pServiceManagerThread->Close();
-            delete m_pServiceManagerThread;
-            m_pServiceManagerThread = ISE_NULL;
-        }
-
-        return ISE_FALSE;
     }
 
     ISE_VOID CIseServiceManager::Uninit()
@@ -176,27 +158,8 @@ namespace ise_service
             m_ServiceMap.erase(iter);
             iter++;
         }
-		if(m_pServiceManagerThread != nullptr)
-        {
-            /*Shutdown the service manager thread....*/
-            m_pServiceManagerThread->Close();
-            delete m_pServiceManagerThread;
-            m_pServiceManagerThread = ISE_NULL;
-        }
     }
 
-    ISE_VOID CIseServiceManager::OnMessage(const ISE_MSG_HEAD *pServiceMsg)
-    {
-        ISE_UINT16 service_id = pServiceMsg->service_id;
-        CIseServicePtr pIseService = GetServiceInstance(service_id);
-        if(pIseService == nullptr)
-        {
-            ISE_ERROR_TRACE("No Service(0x%04X) found!", service_id);
-            return;
-        }
-
-        return pIseService->OnMessage(pServiceMsg);
-    }
 
     CIseServicePtr CIseServiceManager::GetServiceInstance(ISE_UINT16 service_id)
     {
@@ -209,56 +172,18 @@ namespace ise_service
 
         return it->second;
     }
-	
-	ISE_BOOL CIseServiceManager::InitServiceManagerThread()
-	{
-        /*Initialize the service manager thread*/
-        m_pServiceManagerThread = new CIseThread("Service Manager Thread");
-        if(m_pServiceManagerThread == ISE_FALSE)
+
+    ISE_BOOL ExtSendIseServiceMsg(ISE_UINT16 service_id, ISE_MSG_HEAD *pServiceMsg)
+    {
+        ISE_INFO_TRACE("ExtSendIseServiceMsg called!");
+        CIseServicePtr pIseService = CIseServiceManager::GetInstance()->GetServiceInstance(service_id);
+        if(pIseService == nullptr)
         {
-            ISE_ERROR_TRACE("Object m_pServiceManagerThread allocate failed!");
+            ISE_ERROR_TRACE("No Service(0x%04X) found!", service_id);
             return ISE_FALSE;
         }
 
-        if(m_pServiceManagerThread->Create(ServiceManagerThread, this, ISE_FALSE) == ISE_FALSE)
-        {
-            ISE_ERROR_TRACE("Service Manager Thread create failed!");
-            return ISE_FALSE;
-        }
-
-        return ISE_TRUE;
-	}
-
-	ISE_VOID *CIseServiceManager::ServiceManagerThread(ISE_VOID *pParam)
-    {
-        CIseServiceManager *pServiceManager = CIseServiceManager::GetInstance();
-        ISE_ASSERT(pServiceManager, "Fail to get Service Manager instance!");
-
-        while(ISE_TRUE)
-        {
-            ISE_MSG_HEAD * pServiceMsg = ISE_NULL;
-            if(pServiceManager->m_MessageQueue.pop(pServiceMsg, ISE_INFINITE))
-            {
-                ISE_INFO_TRACE("Service Manager Thread: Handle Message with service num: 0x%04X", pServiceMsg->service_id);
-
-                if(pServiceMsg->service_id != ISE_SERVICE_ID_UNKNOWN)
-                {
-                    ISE_ERROR_TRACE("Invalid ISE Message! Ignore!!!!");
-                    continue;
-                }
-				pServiceManager->OnMessage(pServiceMsg);
-            }
-            else
-            {
-                ISE_INFO_TRACE("Wait timeout. Continue to wait...");
-            }
-        }
-    }
-
-    ISE_BOOL CIseServiceManager::SendIseServiceMsg(ISE_MSG_HEAD *pServiceMsg)
-    {
-		ISE_INFO_TRACE("SendIseServiceMsg called service num: 0x%04X", pServiceMsg->service_id);
-        m_MessageQueue.push(pServiceMsg);
-        return ISE_TRUE;
+        return pIseService->SendIseServiceMsg(pServiceMsg);
     }
 }
+

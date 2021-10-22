@@ -1,9 +1,8 @@
-#ifndef __ISE_WEB_SCRIBE_SERVICE_H__
-#define __ISE_WEB_SCRIBE_SERVICE_H__
+#ifndef ISE_WEB_SCRIBE_SERVICE_H
+#define ISE_WEB_SCRIBE_SERVICE_H
 
 #include "ise_common.h"
 #include "ise_service_base.h"
-#include "ise_service_msg.h"
 
 namespace ise_service
 {
@@ -22,11 +21,6 @@ namespace ise_service
 
     public:
         virtual ISE_VOID       OnMessage(const ISE_MSG_HEAD *pPepMsg);
-		virtual ISE_VOID       Run();
-		ISE_BOOL               SendIseServiceMsg(ISE_MSG_HEAD *pServiceMsg);
-
-	private:
-		CIseQueue<ISE_MSG_HEAD *>          m_WebScribeMessageQueue;
 
     };
 }

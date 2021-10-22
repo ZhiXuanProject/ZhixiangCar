@@ -1,5 +1,5 @@
-#ifndef __ISE_SINGLETON_H__
-#define __ISE_SINGLETON_H__
+#ifndef ISE_SINGLETON_H
+#define ISE_SINGLETON_H
 
 template< typename T >
 class CSingleton

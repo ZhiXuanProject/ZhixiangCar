@@ -1,5 +1,5 @@
-#ifndef __ISE_UTILS_H__
-#define __ISE_UTILS_H__
+#ifndef ISE_UTILS_H
+#define ISE_UTILS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,13 +71,27 @@ namespace ise_common
     #define ISE_HIBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value ) >> 8) & 0xFF)) 
 #endif
 
-    typedef struct _IseMessage
+#define ISE_ASSERT(_Expression, ...)     ( ( _Expression ) ? ( ( ISE_VOID )0 ) : \
+                                          ISE_ASSERT_FAILED(#_Expression, ##__VA_ARGS__) )
+    struct _ISE_ALIGN( 1 ) _ISE_PACKED ISE_MSG_HEAD
     {
-        ISE_UINT32           op_code;
-        ISE_UINT32           param;
-        ISE_UINT32           extra_param;
-        ISE_VOID            *p_extra_param;
-    } IseMessage;
+        ISE_UINT8              payload_len;
+        ISE_UINT8              msg_id;
+        ISE_UINT8              payload[0];
+
+    public:
+        ISE_MSG_HEAD(ISE_UINT8 messagID, ISE_UINT8 length)
+        {
+            //ISE_ASSERT(length >= sizeof(*this), "Invalid Message Length!");
+            this->msg_id         = messagID;
+            this->payload_len    = length;
+        }
+
+        ISE_MSG_HEAD()
+        {
+            /*DO NOTHING*/
+        }
+    };
 
     /*Ise Thread Event*/
     class CIseEvent

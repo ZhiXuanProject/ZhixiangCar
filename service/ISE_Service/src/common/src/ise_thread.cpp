@@ -79,7 +79,7 @@ namespace ise_common
                 return ISE_FALSE;
             }
 
-            m_pMessageQueue = new CIseQueue<IseMessage>();
+            m_pMessageQueue = new CIseQueue<ISE_MSG_HEAD *>();
             if(m_pMessageQueue == ISE_NULL)
             {
                 ISE_ERROR_TRACE("Message Queue for thead %s create failed!", m_strThreadName.c_str());
@@ -182,7 +182,7 @@ namespace ise_common
         }
     }
 
-    ISE_BOOL CIseThread::GetThreadMessage(IseMessage &msg, ISE_UINT32 wait_time_ms)
+    ISE_BOOL CIseThread::GetThreadMessage(ISE_MSG_HEAD *&msg, ISE_UINT32 wait_time_ms)
     {
         ISE_INFO_TRACE("[%s] CIseThread::GetThreadMessage >>", m_strThreadName.c_str());
         assert(m_ThreadId);
@@ -209,7 +209,7 @@ namespace ise_common
         return !(m_pMessageQueue->is_empty());
     }
 
-    ISE_BOOL CIseThread::SendThreadMessage(IseMessage msg)
+    ISE_BOOL CIseThread::SendThreadMessage(ISE_MSG_HEAD *msg)
     {
         assert(m_ThreadId);
 

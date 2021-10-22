@@ -1,5 +1,5 @@
-#ifndef __ISE_COMMON_H__
-#define __ISE_COMMON_H__
+#ifndef ISE_COMMON_H
+#define ISE_COMMON_H
 
 #include "ise_utils.h"
 #include "ise_debug.h"

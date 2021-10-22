@@ -1,11 +1,8 @@
-#ifndef __ISE_SERVICE_MANAGER_H__
-#define __ISE_SERVICE_MANAGER_H__
+#ifndef ISE_SERVICE_MANAGER_H
+#define ISE_SERVICE_MANAGER_H
 
 #include "ise_common.h"
-#include "ise_message_base.h"
-
 #include "ise_service_base.h"
-
 #include<map>
 
 namespace ise_service
@@ -23,22 +20,11 @@ namespace ise_service
         ISE_VOID                                Uninit();
 
     public:
-        ISE_VOID                                OnMessage(const ISE_MSG_HEAD *pServiceMsg);
-		ISE_BOOL 							    SendIseServiceMsg(ISE_MSG_HEAD *pServiceMsg);
-
-    public:
         CIseServicePtr                          GetServiceInstance(ISE_UINT16 service_id);
-	public:
-		static ISE_VOID     					*ServiceManagerThread(ISE_VOID *pParam);
 	private:
-		ISE_BOOL                                InitServiceManagerThread();
-
-    private:
-		CIseQueue<ISE_MSG_HEAD *>              m_MessageQueue;
-		CIseThread                         	   *m_pServiceManagerThread;
-		std::map<ISE_UINT16, CIseServicePtr>   m_ServiceMap;
-    };
-	
+		std::map<ISE_UINT16, CIseServicePtr>    m_ServiceMap;
+	};
+    //ISE_BOOL            ExtSendIseServiceMsg(ISE_UINT16 service_id, ISE_MSG_HEAD *pServiceMsg);
 }
 
 

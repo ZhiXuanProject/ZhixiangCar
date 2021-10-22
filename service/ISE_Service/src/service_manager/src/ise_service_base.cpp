@@ -1,6 +1,4 @@
 #include "ise_service_base.h"
-#include "ise_service_msg.h"
-#include "ise_thread.h"
 
 namespace ise_service
 {
@@ -32,12 +30,13 @@ namespace ise_service
         m_uServiceId     = service_id;
         m_strServiceName = service_name;
 
+		InitServiceThread();
+
         if(OnInit() == ISE_TRUE)
         {
             m_bInitFlag     = ISE_TRUE;
             m_bEnableFlag   = ISE_TRUE;  /*Enabled by default*/
             ISE_INFO_TRACE("Service %s initialized!", m_strServiceName.c_str());
-			InitServiceThread();
             return ISE_TRUE;
         }
         else
@@ -85,7 +84,7 @@ namespace ise_service
             return ISE_FALSE;
         }
 
-        if(m_pServiceThread->Create(ServiceThreadProc, this, ISE_FALSE) == ISE_FALSE)
+        if(m_pServiceThread->Create(ServiceThreadProc, this, ISE_TRUE) == ISE_FALSE)
         {
             ISE_ERROR_TRACE("Service Thread create failed!");
             return ISE_FALSE;
@@ -97,18 +96,23 @@ namespace ise_service
 	ISE_VOID *CIseServiceBase::ServiceThreadProc(ISE_VOID *pParam)
     {
         ISE_INFO_TRACE("ServiceThread called!");
-		if(nullptr != pParam)
-		{
-			static_cast<CIseServiceBase*>(pParam)->Run();
-		}
-        
+        while(ISE_TRUE)
+        {
+            ISE_MSG_HEAD *pServiceMsg = nullptr;
+            if(nullptr != pParam)
+			{
+                if(static_cast<CIseServiceBase*>(pParam)->m_pServiceThread->GetThreadMessage(pServiceMsg) ==ISE_TRUE)
+				{
+                    static_cast<CIseServiceBase*>(pParam)->OnMessage(pServiceMsg);
+				}
+			}
+        }
     }
-	ISE_VOID CIseServiceBase::OnMessage(const ISE_MSG_HEAD *pServiceMsg)
-	{
 
-	}
-	ISE_VOID CIseServiceBase::Run()
+	ISE_BOOL CIseServiceBase::SendIseServiceMsg(ISE_MSG_HEAD* pServiceMsg)
 	{
-
+		ISE_INFO_TRACE("SendIseServiceMsg called!");
+		m_pServiceThread->SendThreadMessage(pServiceMsg);
+        return ISE_TRUE;
 	}
 }

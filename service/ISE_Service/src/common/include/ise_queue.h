@@ -1,7 +1,8 @@
-#ifndef __ISE_QUEUE_H__
-#define __ISE_QUEUE_H__
+#ifndef ISE_QUEUE_H
+#define ISE_QUEUE_H
 
 #include "ise_utils.h"
+#include "ise_debug.h"
 
 namespace ise_common
 {
@@ -162,7 +163,7 @@ namespace ise_common
             }
             else
             {
-                if(m_Queue.size() >= m_MaxSize)
+                if(m_Queue.size() = m_MaxSize)
                 {
                     ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue!");
 
@@ -188,7 +189,7 @@ namespace ise_common
             return ISE_NULL;
         }
 
-        ISE_BOOL front(T &data)
+        ISE_BOOL front(T *data)
         {
             if(is_empty())
             {
@@ -211,7 +212,7 @@ namespace ise_common
             return m_Queue.front();
         }
 
-        ISE_BOOL try_pop(T &data)
+        ISE_BOOL try_pop(T *data)
         {
             if(is_empty())
             {
