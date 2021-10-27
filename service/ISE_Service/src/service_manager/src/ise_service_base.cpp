@@ -2,6 +2,7 @@
 
 namespace ise_service
 {
+    using namespace ise_common;
     CIseServiceBase::CIseServiceBase()
     {
         m_uServiceId     = 0;
@@ -21,6 +22,13 @@ namespace ise_service
     {
     	ISE_INFO_TRACE("CIseServiceBase::Init called!");
         CIseLocker locker(m_InitFlagLock);
+
+        if(m_bInitFlag == ISE_TRUE || m_bEnableFlag == ISE_TRUE)
+        {
+            ISE_INFO_TRACE("service %s has already initialized,no need to initialize again.", service_name.c_str());
+            return ISE_TRUE;
+        }
+
         if(service_id < 0)
         {
             ISE_WARN_TRACE("Invalid service id(%d) for initialize!", service_id);
@@ -30,7 +38,11 @@ namespace ise_service
         m_uServiceId     = service_id;
         m_strServiceName = service_name;
 
-		InitServiceThread();
+        if(InitServiceThread() == ISE_FALSE)
+        {
+            ISE_WARN_TRACE("Service %s initialize Thread failed!", m_strServiceName.c_str());
+            return ISE_FALSE;
+        }
 
         if(OnInit() == ISE_TRUE)
         {
@@ -54,7 +66,7 @@ namespace ise_service
 
         m_bInitFlag     = ISE_FALSE;
         m_bEnableFlag   = ISE_FALSE;
-		if(m_pServiceThread != nullptr)
+        if(m_pServiceThread != ISE_NULL)
         {
             /*Shutdown the ervice thread....*/
             m_pServiceThread->Close();
@@ -78,7 +90,7 @@ namespace ise_service
 		ISE_INFO_TRACE("InitServiceThread called!");
         /*Initialize the service thread*/
         m_pServiceThread = new ise_common::CIseThread("Service Thread");
-        if(m_pServiceThread == ISE_FALSE)
+        if(!m_pServiceThread)
         {
             ISE_ERROR_TRACE("Object m_pServiceThread allocate failed!");
             return ISE_FALSE;
@@ -101,7 +113,7 @@ namespace ise_service
             ISE_MSG_HEAD *pServiceMsg = nullptr;
             if(nullptr != pParam)
 			{
-                if(static_cast<CIseServiceBase*>(pParam)->m_pServiceThread->GetThreadMessage(pServiceMsg) ==ISE_TRUE)
+                if(static_cast<CIseServiceBase*>(pParam)->m_pServiceThread->GetThreadMessage(pServiceMsg) == ISE_TRUE)
 				{
                     static_cast<CIseServiceBase*>(pParam)->OnMessage(pServiceMsg);
 				}

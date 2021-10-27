@@ -6,8 +6,6 @@
 
 namespace ise_service
 {
-    using namespace ise_common;
-
     class CIseMapService : public CIseServiceBase, public CSingleton<CIseMapService>
     {
     public:
@@ -21,7 +19,6 @@ namespace ise_service
 
     public:
         virtual ISE_VOID       OnMessage(const ISE_MSG_HEAD *pPepMsg);
-
     };
 }
 

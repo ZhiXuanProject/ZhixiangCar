@@ -2,12 +2,12 @@
 #define ISE_SERVICE_BASE_H
 
 #include "ise_common.h"
-#include <memory>
 #include "ise_thread.h"
+
+#include <memory>
 
 namespace ise_service
 {
-	using namespace ise_common;
     class CIseServiceBase
     {
     public:
@@ -34,12 +34,12 @@ namespace ise_service
 		ISE_BOOL               InitServiceThread();
 
     private:
-        CIseThread              *m_pServiceThread = nullptr;
+        ise_common::CIseThread  *m_pServiceThread = nullptr;
         ISE_UINT16              m_uServiceId;
         std::string             m_strServiceName;
 							    
         ISE_BOOL                m_bInitFlag;
-        CIseSectionLock         m_InitFlagLock;
+        ise_common::CIseSectionLock     m_InitFlagLock;
 							    
         ISE_BOOL                m_bEnableFlag;
     };

@@ -1,4 +1,5 @@
 #include "vehiclenavdisplayadaptor.h"
+#include "ise_dbus_msg.h"
 
 #include <QDebug>
 #include <QTime>

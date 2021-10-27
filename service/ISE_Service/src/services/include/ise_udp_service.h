@@ -6,8 +6,6 @@
 
 namespace ise_service
 {
-    using namespace ise_common;
-
     class CIseUdpService : public CIseServiceBase, public CSingleton<CIseUdpService>
     {
     public:

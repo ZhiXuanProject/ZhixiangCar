@@ -2,9 +2,7 @@
 #include <unistd.h>
 #include<string.h>
 #include <QCoreApplication>
- 
-using namespace ise_common;
-using namespace ise_service;
+
 
 bool nameMatch(const char *name1, const char *name2)
 {
@@ -19,23 +17,24 @@ int main(int argc, char** argv)
 	//set log level from outside
 	if(argc < 2)
 	{
-		ISE_DEBUG_INIT("debug");
+        ise_common::ISE_DEBUG_INIT("debug");
 	}
 	else
 	{
+
 		if(nameMatch(argv[1], "debug") || nameMatch(argv[1], "info") || nameMatch(argv[1], "warn")
 			|| nameMatch(argv[1], "error") || nameMatch(argv[1], "fatal"))
 		{
-			ISE_DEBUG_INIT(argv[1]);
+            ise_common::ISE_DEBUG_INIT(argv[1]);
 		}
 		else
 		{
-			ISE_DEBUG_INIT("debug");
+            ise_common::ISE_DEBUG_INIT("debug");
 		}
 	}
 
     ISE_INFO_TRACE("Starting up ISE services....");
-    CIseServiceManager *pServiceManager = CIseServiceManager::GetInstance();
+    ise_service::CIseServiceManager *pServiceManager = ise_service::CIseServiceManager::GetInstance();
     ISE_ASSERT(pServiceManager, "Failed to get service manager!");
     ISE_ASSERT(pServiceManager->Init(), "Fail to initialize ISE service Manager!");
     ISE_INFO_TRACE("ISE Service Manager initialized!");

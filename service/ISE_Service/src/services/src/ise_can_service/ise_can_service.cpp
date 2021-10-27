@@ -2,9 +2,22 @@
 #include "ise_can_service.h"
 #include "ise_service_msg.h"
 
+struct canTestDemo:public ISE_MSG_HEAD
+{
+    uint speed;
+    canTestDemo(ISE_UINT8 messagID):ISE_MSG_HEAD(messagID,sizeof(canTestDemo))
+    {
+    }
+
+    ~canTestDemo()
+    {
+    }
+};
+
+extern ISE_BOOL ExtSendIseServiceMsg(ISE_MSG_HEAD* pServiceMsg);
+
 namespace ise_service
 {
-    using namespace ise_common;
     extern ISE_BOOL ExtSendIseServiceMsg(ISE_UINT16 service_id, ISE_MSG_HEAD *pServiceMsg);
     CIseCanService::CIseCanService()
     {
@@ -18,7 +31,6 @@ namespace ise_service
 
     ISE_BOOL CIseCanService::OnInit()
     {
-
         ISE_INFO_TRACE("CIseCanService initialized!");
 		//Call the SendIseServiceMsg to start OnMessage to handle internal messag for first time
         //ISE_UINT8 msg_len   = 100;
@@ -27,9 +39,13 @@ namespace ise_service
         //pMsgBuff[1] = 88;
         //pMsgBuff[2] = 78;
         //ISE_MSG_HEAD *pMsgHead = new(pMsgBuff) ISE_MSG_HEAD();
-        ISE_CAN_COMMAND *pMsgHead = new ISE_CAN_COMMAND();
-        pMsgHead->reserved = 99;
-        SendIseServiceMsg(pMsgHead);
+        //demo
+        canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+        demo->speed = 20;
+        //发送给自己基类队列
+        SendIseServiceMsg(static_cast<ISE_MSG_HEAD*>(demo));
+        //全局发送，可任意发送给其他线程
+        ExtSendIseServiceMsg(ISE_CAN_SERVICE_ID,static_cast<ISE_MSG_HEAD*>(demo));
         return ISE_TRUE;
     }
 
@@ -43,8 +59,7 @@ namespace ise_service
     {
         ISE_INFO_TRACE("Received Message: message ID = 0x%04X", pServiceMsg->msg_id);
         ISE_MSG_HEAD *pMsgHead = const_cast<ISE_MSG_HEAD *>(pServiceMsg);
-        ISE_CAN_COMMAND *pMsgHead1 = static_cast<ISE_CAN_COMMAND *>(pMsgHead);
-        //delete pServiceMsg;
+        canTestDemo *pMsgHead1 = static_cast<canTestDemo *>(pMsgHead);
         delete pMsgHead1;
     }
 }

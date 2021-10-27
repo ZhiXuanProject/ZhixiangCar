@@ -5,8 +5,6 @@
 
 namespace ise_service
 {
-    using namespace ise_common;
-
     class CIseLogService : public CIseServiceBase, public CSingleton<CIseLogService>
     {
     public:
@@ -22,7 +20,7 @@ namespace ise_service
         virtual ISE_VOID       OnMessage(const ISE_MSG_HEAD *pPepMsg);
 
 	private:
-		CIseQueue<ISE_MSG_HEAD *>          m_LogMessageQueue;
+        ise_common::CIseQueue<ISE_MSG_HEAD *>          m_LogMessageQueue;
     };
 }
 

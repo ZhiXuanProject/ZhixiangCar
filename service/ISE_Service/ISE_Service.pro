@@ -26,6 +26,7 @@ HEADERS += src/common/include/ise_common.h \
     src/common/include/ise_singleton.h \
     src/common/include/ise_thread.h \
     src/common/include/ise_utils.h \
+    src/common/include/ise_dbus_msg.h \
     src/service_manager/include/ise_message_base.h \
     src/service_manager/include/ise_service_base.h \
     src/service_manager/include/ise_service_manager.h \
@@ -41,7 +42,9 @@ HEADERS += src/common/include/ise_common.h \
     src/services/src/ise_dbus_service/vehiclenavdisplayadaptor.h \
     src/services/src/ise_dbus_service/vehiclemediacontroladaptor.h \
     src/services/src/ise_dbus_service/vehicleinformationadaptor.h \
-    src/services/src/ise_dbus_service/vehiclebusproxy.h
+    src/services/src/ise_dbus_service/vehiclebusproxy.h \
+    #src/services/src/ise_dbus_service/ise_dbus_msg.h
+    src/services/src/ise_web_scribe_service/advertisementinfo.h
 
 SOURCES += src/common/src/ise_debug.cpp \
     src/common/src/ise_thread.cpp \
@@ -60,8 +63,8 @@ SOURCES += src/common/src/ise_debug.cpp \
     src/services/src/ise_dbus_service/vehiclenavdisplayadaptor.cpp \
     src/services/src/ise_dbus_service/vehiclemediacontroladaptor.cpp \
     src/services/src/ise_dbus_service/vehicleinformationadaptor.cpp \
-    src/services/src/ise_dbus_service/vehiclebusproxy.cpp
-
+    src/services/src/ise_dbus_service/vehiclebusproxy.cpp \
+    src/services/src/ise_web_scribe_service/advertisementinfo.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

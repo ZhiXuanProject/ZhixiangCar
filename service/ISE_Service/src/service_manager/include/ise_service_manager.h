@@ -7,8 +7,6 @@
 
 namespace ise_service
 {
-    using namespace ise_common;
-
     class CIseServiceManager : public CSingleton<CIseServiceManager>
     {
     public:

@@ -126,7 +126,7 @@ namespace ise_service
 		m_ServiceMap.insert(map<ISE_UINT16, CIseServicePtr>::value_type(ISE_UPDATE_SERVICE_ID, pIseUpdateService));
 
 		//create ISE web_scrib service and init it
-         CIseServicePtr pIseWebScribeService = static_cast<CIseServicePtr>(CIseWebScribeService::GetInstance());
+         CIseServicePtr pIseWebScribeService = static_cast<CIseServicePtr>(CIseWebSubscribeService::GetInstance());
          if(pIseWebScribeService == ISE_NULL)
          {
              ISE_ERROR_TRACE("ISE web_scribe Service create failed!");

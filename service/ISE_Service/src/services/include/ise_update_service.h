@@ -6,8 +6,6 @@
 
 namespace ise_service
 {
-    using namespace ise_common;
-
     class CIseUpdateService : public CIseServiceBase, public CSingleton<CIseUpdateService>
     {
     public:

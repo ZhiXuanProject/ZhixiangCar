@@ -4,15 +4,14 @@
 #include "ise_common.h"
 #include "ise_service_base.h"
 
+class AdvertisementInfo;
 namespace ise_service
 {
-    using namespace ise_common;
-
-    class CIseWebScribeService : public CIseServiceBase, public CSingleton<CIseWebScribeService>
+    class CIseWebSubscribeService : public CIseServiceBase, public CSingleton<CIseWebSubscribeService>
     {
     public:
-        CIseWebScribeService();
-        virtual ~CIseWebScribeService();
+        CIseWebSubscribeService();
+        virtual ~CIseWebSubscribeService();
 
     /*Overrided functions*/
     protected:
@@ -21,7 +20,8 @@ namespace ise_service
 
     public:
         virtual ISE_VOID       OnMessage(const ISE_MSG_HEAD *pPepMsg);
-
+    private:
+        AdvertisementInfo* m_Advinfo = nullptr;
     };
 }
 

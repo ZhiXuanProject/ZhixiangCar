@@ -61,6 +61,7 @@ private:
     bool    m_mute;
     int     m_volume;
     int     m_playMode;
+    int     m_playbackStatus;
     QString m_playUri;
 };
 

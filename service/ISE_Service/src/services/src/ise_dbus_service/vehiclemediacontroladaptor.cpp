@@ -1,4 +1,5 @@
 #include "vehiclemediacontroladaptor.h"
+#include "ise_dbus_msg.h"
 
 #include <QDebug>
 #include <QTime>
@@ -7,8 +8,7 @@
 #include <QDBusMetaType>
 #include <QDBusArgument>
 
-#include "ise_service_msg.h"
-
+using namespace ise_dbus_msg;
 VehicleMediaControlAdaptor::VehicleMediaControlAdaptor(QObject *parent):QDBusAbstractAdaptor(parent),
                             m_mute(false),m_volume(0),m_playMode(0),m_playUri("")
 {
@@ -19,13 +19,13 @@ void VehicleMediaControlAdaptor::slotSetUri(const QString &path,int type)
 {
     m_playUri = path;
     switch (type) {
-    case ise_service::PLAY:
+    case ise_dbus_msg::PLAY:
         emit SigPlay(path);
         break;
-    case ise_service::NEXT:
+    case ise_dbus_msg::NEXT:
         emit SigNext(path);
         break;
-    case ise_service::PREVIOUS:
+    case ise_dbus_msg::PREVIOUS:
         emit SigPrevious(path);
         break;
     default:
@@ -53,20 +53,21 @@ void VehicleMediaControlAdaptor::slotPlayMode(int mode)
 
 QDBusVariant VehicleMediaControlAdaptor::RequstAllData()
 {
-//    MeidaCtlInfo mineinfo;
-//    mineinfo.mute = m_mute;
-//    mineinfo.volume = m_volume;
-//    mineinfo.mode = m_playMode;
-//    mineinfo.path = m_playUri;
+    MeidaCtlInfo mineinfo;
+    mineinfo.mute = m_mute;
+    mineinfo.volume = m_volume;
+    mineinfo.mode = m_playMode;
+    mineinfo.status = m_playbackStatus;
+    mineinfo.currentPath = m_playUri;
 
-//    QDBusArgument argument;
-//    argument<<mineinfo;
+    QDBusArgument argument;
+    argument<<mineinfo;
 
-//    QVariant var;
-//    var.setValue(argument);
+    QVariant var;
+    var.setValue(argument);
 
     QDBusVariant  dbusvar;
-//    dbusvar.setVariant(var);
+    dbusvar.setVariant(var);
 
     return dbusvar;
 }

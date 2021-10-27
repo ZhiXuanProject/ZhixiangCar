@@ -1,8 +1,8 @@
 #include "vehicleinformationadaptor.h"
+#include "ise_dbus_msg.h"
 
 #include <QDebug>
 #include <QTime>
-#include <QTimer>
 
 VehicleInfoAdaptor::VehicleInfoAdaptor(QObject *parent):QDBusAbstractAdaptor(parent)
 {

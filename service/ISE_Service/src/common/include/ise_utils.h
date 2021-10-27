@@ -13,86 +13,86 @@
 #include <sys/types.h>
 #include "ise_singleton.h"
 
-namespace ise_common
-{
-    typedef char                 ISE_CHAR;       /* Size should be 1 byte. */
-    typedef unsigned char        ISE_BYTE;       /* Size should be 1 byte. */
-    typedef signed char          ISE_INT8;       /* Size should be 1 bytes. */
-    typedef unsigned char        ISE_UINT8;      /* Size should be 1 bytes. */
-    typedef signed short         ISE_INT16;      /* Size should be 2 bytes. */
-    typedef unsigned short       ISE_UINT16;     /* Size should be 2 bytes. */
-    typedef signed long          ISE_INT32;      /* Size should be 4 bytes. */
-    typedef unsigned long        ISE_UINT32;     /* Size should be 4 bytes. */
-    typedef signed long long     ISE_INT64;      /* Size should be 8 bytes. */
-    typedef unsigned long long   ISE_UINT64;     /* Size should be 8 bytes. */
-    typedef signed int           ISE_INT;        /* Size depends on compiler. */
-    typedef unsigned int         ISE_UINT;       /* Size depends on compiler. */
-    typedef ISE_INT64            ISE_INT_PTR;    /* Size depends on target platform, current is for 64bit. */
-    typedef ISE_UINT64           ISE_UINT_PTR;   /* Size depends on target platform, current is for 64bit. */
-    typedef float                ISE_FLOAT;      /* Size should be 4 bytes. */
-    typedef double               ISE_DOUBLE;     /* Size should be 8 bytes. */
 
-    typedef ISE_INT64             ISE_TIME;
-    typedef void                  ISE_VOID;
-    typedef ISE_INT               ISE_BOOL;
-    typedef ISE_UINT32            ISE_SIZE;
+typedef char                 ISE_CHAR;       /* Size should be 1 byte. */
+typedef unsigned char        ISE_BYTE;       /* Size should be 1 byte. */
+typedef signed char          ISE_INT8;       /* Size should be 1 bytes. */
+typedef unsigned char        ISE_UINT8;      /* Size should be 1 bytes. */
+typedef signed short         ISE_INT16;      /* Size should be 2 bytes. */
+typedef unsigned short       ISE_UINT16;     /* Size should be 2 bytes. */
+typedef signed long          ISE_INT32;      /* Size should be 4 bytes. */
+typedef unsigned long        ISE_UINT32;     /* Size should be 4 bytes. */
+typedef signed long long     ISE_INT64;      /* Size should be 8 bytes. */
+typedef unsigned long long   ISE_UINT64;     /* Size should be 8 bytes. */
+typedef signed int           ISE_INT;        /* Size depends on compiler. */
+typedef unsigned int         ISE_UINT;       /* Size depends on compiler. */
+typedef ISE_INT64            ISE_INT_PTR;    /* Size depends on target platform, current is for 64bit. */
+typedef ISE_UINT64           ISE_UINT_PTR;   /* Size depends on target platform, current is for 64bit. */
+typedef float                ISE_FLOAT;      /* Size should be 4 bytes. */
+typedef double               ISE_DOUBLE;     /* Size should be 8 bytes. */
 
-    #define ISE_NONE              0
-    #define ISE_NULL              NULL
-    #define ISE_TRUE              1
-    #define ISE_FALSE             0
-    #define ISE_INFINITE          ( ( ISE_SIZE )~0 )
-    #define ISE_INVALID_TIME      ( ( ISE_TIME )~0 )
+typedef ISE_INT64             ISE_TIME;
+typedef void                  ISE_VOID;
+typedef ISE_INT               ISE_BOOL;
+typedef ISE_UINT32            ISE_SIZE;
 
-    #define ISE_COUNT_OF( _Array ) ( sizeof( _Array ) / sizeof( ( _Array )[0] ) )
+#define ISE_NONE              0
+#define ISE_NULL              NULL
+#define ISE_TRUE              1
+#define ISE_FALSE             0
+#define ISE_INFINITE          ( ( ISE_SIZE )~0 )
+#define ISE_INVALID_TIME      ( ( ISE_TIME )~0 )
 
-    #define                      ISEOSPER_INFINITE          ( ( unsigned long )~0 )
-    #define                      ISE_EMPTY_STRING           ""
+#define ISE_COUNT_OF( _Array ) ( sizeof( _Array ) / sizeof( ( _Array )[0] ) )
 
-    #define                      ISE_UNUSED(param)          (void)param
+#define                      ISEOSPER_INFINITE          ( ( unsigned long )~0 )
+#define                      ISE_EMPTY_STRING           ""
 
-    typedef ISE_INT               ISE_HSOCKET;
-    #define ISE_INVALID_SOCKET    ( ( ISE_HSOCKET )~0 )
-    #define ISE_SD_BOTH           SHUT_RDWR
-    #define ISE_SD_RECEIVE        SHUT_RD
-    #define ISE_SD_SEND           SHUT_WR
+#define                      ISE_UNUSED(param)          (void)param
 
-    #define _ISE_ALIGN( N )       __attribute__((aligned( N )))
-    #define _ISE_PACKED           __attribute__((packed))
+typedef ISE_INT               ISE_HSOCKET;
+#define ISE_INVALID_SOCKET    ( ( ISE_HSOCKET )~0 )
+#define ISE_SD_BOTH           SHUT_RDWR
+#define ISE_SD_RECEIVE        SHUT_RD
+#define ISE_SD_SEND           SHUT_WR
+
+#define _ISE_ALIGN( N )       __attribute__((aligned( N )))
+#define _ISE_PACKED           __attribute__((packed))
 
 //#define ISE_BIG_ENDIAN_TYPE
 #if defined( ISE_BIG_ENDIAN_TYPE )  /* Big endian */
-    #define ISE_MAKE16WORD( _Low, _High ) ((ISE_UINT16)(((ISE_UINT8)(((ISE_UINT)( _High )) & 0xFF)) | ((ISE_UINT16)((ISE_UINT8)(((ISE_UINT)( _Low )) & 0xFF))) << 8))
-    #define ISE_LOBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value ) >> 8) & 0xFF)) 
-    #define ISE_HIBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value )) & 0xFF)) 
+#define ISE_MAKE16WORD( _Low, _High ) ((ISE_UINT16)(((ISE_UINT8)(((ISE_UINT)( _High )) & 0xFF)) | ((ISE_UINT16)((ISE_UINT8)(((ISE_UINT)( _Low )) & 0xFF))) << 8))
+#define ISE_LOBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value ) >> 8) & 0xFF))
+#define ISE_HIBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value )) & 0xFF))
 #else
-    #define ISE_MAKE16WORD( _Low, _High ) ((ISE_UINT16)(((ISE_UINT8)(((ISE_UINT)( _Low )) & 0xFF)) | ((ISE_UINT16)((ISE_UINT8)(((ISE_UINT)( _High )) & 0xFF))) << 8))
-    #define ISE_LOBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value )) & 0xFF)) 
-    #define ISE_HIBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value ) >> 8) & 0xFF)) 
+#define ISE_MAKE16WORD( _Low, _High ) ((ISE_UINT16)(((ISE_UINT8)(((ISE_UINT)( _Low )) & 0xFF)) | ((ISE_UINT16)((ISE_UINT8)(((ISE_UINT)( _High )) & 0xFF))) << 8))
+#define ISE_LOBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value )) & 0xFF))
+#define ISE_HIBYTE( _Value )          ((ISE_UINT8)(((ISE_UINT16)( _Value ) >> 8) & 0xFF))
 #endif
 
-#define ISE_ASSERT(_Expression, ...)     ( ( _Expression ) ? ( ( ISE_VOID )0 ) : \
-                                          ISE_ASSERT_FAILED(#_Expression, ##__VA_ARGS__) )
-    struct _ISE_ALIGN( 1 ) _ISE_PACKED ISE_MSG_HEAD
+//#define ISE_ASSERT(_Expression, ...)     ( ( _Expression ) ? ( ( ISE_VOID )0 ) : \
+//                                      ISE_ASSERT_FAILED(#_Expression, ##__VA_ARGS__) )
+struct _ISE_ALIGN( 1 ) _ISE_PACKED ISE_MSG_HEAD
+{
+    ISE_UINT8              payload_len;
+    ISE_UINT8              msg_id;
+    ISE_UINT8              payload[0];
+
+public:
+    ISE_MSG_HEAD(ISE_UINT8 messagID, ISE_UINT8 length)
     {
-        ISE_UINT8              payload_len;
-        ISE_UINT8              msg_id;
-        ISE_UINT8              payload[0];
+        //ISE_ASSERT(length >= sizeof(*this), "Invalid Message Length!");
+        this->msg_id         = messagID;
+        this->payload_len    = length;
+    }
 
-    public:
-        ISE_MSG_HEAD(ISE_UINT8 messagID, ISE_UINT8 length)
-        {
-            //ISE_ASSERT(length >= sizeof(*this), "Invalid Message Length!");
-            this->msg_id         = messagID;
-            this->payload_len    = length;
-        }
-
-        ISE_MSG_HEAD()
-        {
-            /*DO NOTHING*/
-        }
-    };
-
+    virtual ~ISE_MSG_HEAD()
+    {
+        /*DO NOTHING*/
+    }
+};
+namespace ise_common
+{
     /*Ise Thread Event*/
     class CIseEvent
     {
