@@ -22,6 +22,7 @@ namespace ise_common
         {
             //ISE_DEBUG_TRACE("CIseQueue::CIseQueue() >>");
             m_MaxSize = ISE_INFINITE;
+            clear();
         }
 
         CIseQueue(ISE_UINT max_size)
@@ -55,12 +56,13 @@ namespace ise_common
                 if(m_Queue.empty())
                 {
                     m_Queue.push(data);
-                    m_QueueEvent.Signal();
                 }
                 else
                 {
                     m_Queue.push(data);
                 }
+
+                m_QueueEvent.Signal();
             }
             else
             {
@@ -88,6 +90,12 @@ namespace ise_common
                     return ISE_FALSE;
                 }
                 CIseLocker locker(m_QueueLock);
+
+                if(m_Queue.size() == 0)
+                {
+                    return ISE_FALSE;
+                }
+
                 ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue1!");
 
                 data = std::move(m_Queue.front());

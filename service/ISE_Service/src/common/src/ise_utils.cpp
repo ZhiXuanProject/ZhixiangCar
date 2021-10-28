@@ -72,10 +72,10 @@ namespace ise_common
         ISE_ASSERT(m_pCond, "Invalid CIseEvent event");
 
         ISE_DEBUG_TRACE("CIseEvent: Singal Event %p", m_pCond);
-        pthread_mutex_lock( m_pMutex );
+        //pthread_mutex_lock( m_pMutex );
         m_bSignaled = ISE_TRUE;
         pthread_cond_signal( m_pCond );
-        pthread_mutex_unlock(m_pMutex);
+        //pthread_mutex_unlock(m_pMutex);
         ISE_DEBUG_TRACE("CIseEvent: Event signaled %p.", m_pCond);
     }
 

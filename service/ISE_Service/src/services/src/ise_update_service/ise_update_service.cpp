@@ -32,6 +32,24 @@ namespace ise_service
     ISE_VOID CIseUpdateService::OnMessage(const ISE_MSG_HEAD *pIseMsg)
     {
         ISE_INFO_TRACE("Received Message: message ID = 0x%04X", pIseMsg->msg_id);
+        ISE_MSG_HEAD *pMsgHead = const_cast<ISE_MSG_HEAD *>(pIseMsg);
+        switch (pIseMsg->msg_id) {
+        case 1:
+        {
+            //强转
+            break;
+        }
+        case 2:
+        {
+            //强转
+            break;
+        }
+        default:
+            break;
+        }
+        canTestDemo *pMsgHead1 = dynamic_cast<canTestDemo *>(pMsgHead);
+        qDebug()<<__FUNCTION__<<"CIseUpdateService msg------:"<<pMsgHead1->str;
+        delete pMsgHead1;
     }
 
 }

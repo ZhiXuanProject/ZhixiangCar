@@ -16,13 +16,12 @@ namespace ise_service
 		ISE_CAN_SERVICE_ID,
 		ISE_DBUS_SERVICE_ID,
 		ISE_UDP_SERVICE_ID,
-		ISE_USB_SERVICE_ID,
 		ISE_UPDATE_SERVICE_ID,
 		ISE_MEDIA_SERVICE_ID,
 		ISE_WEB_SCRIBE_SERVICE_ID,
 		ISE_LOG_SERVICE_ID,
 		ISE_MAP_SERVICE_ID,
-		AMP_SRVICE_ID_MAX
+        ISE_SRVICE_ID_MAX
 	};
 	
     enum IseMessageID
@@ -97,6 +96,19 @@ namespace ise_service
         }
 
         ~ISE_CAN_Message(){}
+    };
+
+    struct canTestDemo:public ISE_MSG_HEAD
+    {
+        ISE_UINT speed;
+        QString  str;
+        canTestDemo(ISE_UINT8 messagID):ISE_MSG_HEAD(messagID,sizeof(canTestDemo))
+        {
+        }
+
+        ~canTestDemo()
+        {
+        }
     };
 
 }

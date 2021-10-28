@@ -3,18 +3,6 @@
 #include "ise_service_msg.h"
 #include <QDebug>
 
-struct canTestDemo:public ISE_MSG_HEAD
-{
-    ISE_UINT speed;
-    QString  str;
-    canTestDemo(ISE_UINT8 messagID):ISE_MSG_HEAD(messagID,sizeof(canTestDemo))
-    {
-    }
-
-    ~canTestDemo()
-    {
-    }
-};
 
 extern ISE_BOOL ExtSendIseServiceMsg(ISE_MSG_HEAD* pServiceMsg);
 
@@ -46,7 +34,7 @@ namespace ise_service
         {
             canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
             demo->speed = i;
-            demo->str = "i"+QString::number(i);
+            demo->str = "a"+QString::number(i);
             //发送给自己基类队列
             SendIseServiceMsg(dynamic_cast<ISE_MSG_HEAD*>(demo));
         }
@@ -55,9 +43,63 @@ namespace ise_service
         {
             canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
             demo->speed = j;
-            demo->str = "j"+QString::number(j);
+            demo->str = "b"+QString::number(j);
             //全局发送，可任意发送给其他线程
             ExtSendIseServiceMsg(ISE_DBUS_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "c"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_UDP_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "d"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_UPDATE_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "e"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_MEDIA_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "f"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_WEB_SCRIBE_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "g"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_LOG_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
+        }
+
+        for(int j = 0 ; j< 1000 ;j++)
+        {
+            canTestDemo * demo =  new canTestDemo(MESSAGE_ID_STATION_MANAGER);
+            demo->speed = j;
+            demo->str = "g"+QString::number(j);
+            //全局发送，可任意发送给其他线程
+            ExtSendIseServiceMsg(ISE_MAP_SERVICE_ID,dynamic_cast<ISE_MSG_HEAD*>(demo));
         }
         return ISE_TRUE;
     }
