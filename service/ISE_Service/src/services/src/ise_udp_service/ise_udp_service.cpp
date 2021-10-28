@@ -6,7 +6,7 @@ namespace ise_service
 {
     using namespace ise_common;
 
-    CIseUdpService::CIseUdpService()
+    CIseUdpService::CIseUdpService():CIseServiceBase(ISE_UDP_SERVICE_ID,"CIseUdpService")
     {
         ISE_INFO_TRACE("This is ISE udp Service...");
     }

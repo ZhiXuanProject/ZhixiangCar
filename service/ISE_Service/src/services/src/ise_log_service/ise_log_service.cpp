@@ -4,7 +4,7 @@
 
 namespace ise_service
 {
-    CIseLogService::CIseLogService()
+    CIseLogService::CIseLogService():CIseServiceBase(ISE_LOG_SERVICE_ID,"CIseLogService")
     {
         ISE_INFO_TRACE("This is ISE Log Service...");
     }

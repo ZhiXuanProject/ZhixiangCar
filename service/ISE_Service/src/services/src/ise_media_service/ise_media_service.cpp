@@ -6,7 +6,7 @@ namespace ise_service
 {
     using namespace ise_common;
 
-    CIseMediaService::CIseMediaService()
+    CIseMediaService::CIseMediaService():CIseServiceBase(ISE_MEDIA_SERVICE_ID,"CIseMediaService")
     {
         ISE_INFO_TRACE("This is ISE Media Service...");
     }

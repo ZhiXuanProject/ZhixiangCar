@@ -1,12 +1,13 @@
 #include "ise_service_base.h"
+#include <QThread>
 
 namespace ise_service
 {
     using namespace ise_common;
-    CIseServiceBase::CIseServiceBase()
+    CIseServiceBase::CIseServiceBase(ISE_UINT16 service_id , std::string service_name)
     {
-        m_uServiceId     = 0;
-        m_strServiceName = "Undefined Service";
+        m_uServiceId     = service_id;
+        m_strServiceName = service_name;
         m_bInitFlag     = ISE_FALSE;
         m_bEnableFlag   = ISE_FALSE;
     }
@@ -113,17 +114,27 @@ namespace ise_service
             ISE_MSG_HEAD *pServiceMsg = nullptr;
             if(nullptr != pParam)
 			{
-                if(static_cast<CIseServiceBase*>(pParam)->m_pServiceThread->GetThreadMessage(pServiceMsg) == ISE_TRUE)
+                CIseServiceBase* pServiceBase = static_cast<CIseServiceBase*>(pParam);
+                if(pServiceBase->m_pServiceThread->GetThreadMessage(pServiceMsg) == ISE_TRUE)
 				{
-                    static_cast<CIseServiceBase*>(pParam)->OnMessage(pServiceMsg);
-				}
+                    pServiceBase->OnMessage(pServiceMsg);
+                }
 			}
         }
     }
 
 	ISE_BOOL CIseServiceBase::SendIseServiceMsg(ISE_MSG_HEAD* pServiceMsg)
 	{
-		ISE_INFO_TRACE("SendIseServiceMsg called!");
+        if(!m_pServiceThread)
+        {
+            if(Init(m_uServiceId,m_strServiceName) == ISE_FALSE)
+            {
+                ISE_FATAL_TRACE("CIseServiceBase Init failed!");
+                return ISE_FALSE;
+            }
+        }
+
+        //ISE_INFO_TRACE("SendIseServiceMsg called!");
 		m_pServiceThread->SendThreadMessage(pServiceMsg);
         return ISE_TRUE;
 	}

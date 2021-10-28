@@ -4,6 +4,8 @@
 #include "ise_utils.h"
 #include "ise_debug.h"
 
+#include <QDebug>
+
 namespace ise_common
 {
     template<typename T>
@@ -15,7 +17,6 @@ namespace ise_common
         CIseEvent           m_QueueFullEvent;
         std::queue<T>       m_Queue;
         ISE_UINT32          m_MaxSize;
-    
     public:
         CIseQueue()
         {
@@ -77,6 +78,7 @@ namespace ise_common
             }
         }
 
+
         ISE_BOOL pop(T &data, ISE_UINT32 wait_time_ms)
         {
             if(is_empty())
@@ -85,9 +87,8 @@ namespace ise_common
                 {
                     return ISE_FALSE;
                 }
-
                 CIseLocker locker(m_QueueLock);
-                ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue!");
+                ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue1!");
 
                 data = std::move(m_Queue.front());
                 m_Queue.pop();
@@ -100,7 +101,7 @@ namespace ise_common
             if(m_MaxSize == ISE_INFINITE)
             {
                 /*Infinite queue size. Push the data anyway.*/
-                ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue!");
+                ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue2!");
 
                 data = std::move(m_Queue.front());
                 m_Queue.pop();
@@ -109,7 +110,7 @@ namespace ise_common
             {
                 if(m_Queue.size() >= m_MaxSize)
                 {
-                    ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue!");
+                    ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue3!");
 
                     data = std::move(m_Queue.front());
                     m_Queue.pop();
@@ -119,7 +120,7 @@ namespace ise_common
                 }
                 else
                 {
-                    ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue!");
+                    ISE_ASSERT(m_Queue.size() > 0, "Unexpected empty queue4!");
 
                     data = std::move(m_Queue.front());
                     m_Queue.pop();

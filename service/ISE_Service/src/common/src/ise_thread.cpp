@@ -184,7 +184,6 @@ namespace ise_common
 
     ISE_BOOL CIseThread::GetThreadMessage(ISE_MSG_HEAD *&msg, ISE_UINT32 wait_time_ms)
     {
-        ISE_INFO_TRACE("[%s] CIseThread::GetThreadMessage >>", m_strThreadName.c_str());
         assert(m_ThreadId);
 
         if((m_bMessageQueue == ISE_FALSE) || (m_pMessageQueue == ISE_NULL))

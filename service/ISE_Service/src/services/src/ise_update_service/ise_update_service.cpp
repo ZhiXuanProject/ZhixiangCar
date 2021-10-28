@@ -6,7 +6,7 @@ namespace ise_service
 {
     using namespace ise_common;
 
-    CIseUpdateService::CIseUpdateService()
+    CIseUpdateService::CIseUpdateService():CIseServiceBase(ISE_UPDATE_SERVICE_ID,"CIseUpdateService")
     {
         ISE_INFO_TRACE("This is ISE Update Service...");
     }

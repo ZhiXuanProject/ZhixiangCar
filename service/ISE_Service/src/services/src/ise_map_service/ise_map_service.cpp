@@ -6,7 +6,7 @@ namespace ise_service
 {
     using namespace ise_common;
 
-    CIseMapService::CIseMapService()
+    CIseMapService::CIseMapService():CIseServiceBase(ISE_MAP_SERVICE_ID,"CIseMapService")
     {
         ISE_INFO_TRACE("This is ISE Map Service...");
     }

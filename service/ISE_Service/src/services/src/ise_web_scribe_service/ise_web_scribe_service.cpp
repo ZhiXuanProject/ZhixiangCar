@@ -8,7 +8,7 @@ namespace ise_service
 {
     using namespace ise_common;
 
-    CIseWebSubscribeService::CIseWebSubscribeService()
+    CIseWebSubscribeService::CIseWebSubscribeService():CIseServiceBase(ISE_WEB_SCRIBE_SERVICE_ID,"CIseWebSubscribeService")
     {
         ISE_INFO_TRACE("This is ISE WebScribe Service...");
     }

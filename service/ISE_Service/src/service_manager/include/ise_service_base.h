@@ -11,9 +11,8 @@ namespace ise_service
     class CIseServiceBase
     {
     public:
-        CIseServiceBase();
+        CIseServiceBase(ISE_UINT16 serviceid = 0, std::string = "Undefined Service");
         virtual ~CIseServiceBase();
-    
     public:
         ISE_BOOL               Init(ISE_UINT16 service_id, std::string service_name);
         ISE_VOID               Uninit();

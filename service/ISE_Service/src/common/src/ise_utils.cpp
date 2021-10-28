@@ -3,11 +3,11 @@
 #include <assert.h>
 #include <string.h>
 
+#include <QDebug>
+
 namespace ise_common
 {
-    CIseEvent::CIseEvent() : 
-    m_bSignaled(ISE_FALSE), 
-    m_strEventName("Ise Event")
+    CIseEvent::CIseEvent() : m_bSignaled(ISE_FALSE), m_strEventName("Ise Event")
     {
         m_pCond = (pthread_cond_t *)malloc(sizeof(pthread_cond_t));
         ISE_ASSERT(m_pCond, "CIseEvent: Event allocate failed!");
@@ -26,9 +26,7 @@ namespace ise_common
         ISE_DEBUG_TRACE("CIseEvent: Cond initialized. %p", m_pCond);
     }
 
-    CIseEvent::CIseEvent(std::string event_name) :
-    m_bSignaled(ISE_FALSE), 
-    m_strEventName(event_name)
+    CIseEvent::CIseEvent(std::string event_name) :m_bSignaled(ISE_FALSE), m_strEventName(event_name)
     {
         m_pCond = (pthread_cond_t *)malloc(sizeof(pthread_cond_t));
         ISE_ASSERT(m_pCond, "CIseEvent: Event allocate failed!");
@@ -98,11 +96,12 @@ namespace ise_common
         ISE_ASSERT(m_pCond, "Invalid CIseEvent event");
 
         ISE_DEBUG_TRACE("CIseEvent: Waiting for Event %p", m_pCond);
+        ISE_BOOL    bWaited    = ISE_TRUE;
 
-        pthread_cond_wait( m_pCond, m_pMutex );
-        ISE_BOOL    bWaited    = ISE_TRUE; 
-        if( wait_time_ms == ISE_INFINITE )
+        pthread_mutex_lock( m_pMutex );
+        if( wait_time_ms == ISE_INFINITE)
         {
+            pthread_cond_wait( m_pCond, m_pMutex );
             if( !m_bSignaled )
             {
                 ISE_WARN_TRACE("CIseEvent: ISE_INFINITE waited!");
@@ -192,22 +191,22 @@ namespace ise_common
 
     ISE_VOID CIseSectionLock::Enter()
     {
-        ISE_DEBUG_TRACE("CIseSectionLock::Enter %p>>", m_pMutex);
+        //ISE_DEBUG_TRACE("CIseSectionLock::Enter %p>>", m_pMutex);
         ISE_ASSERT(m_pMutex, "Invalid Lock!");
         
-        ISE_DEBUG_TRACE("CIseSectionLock::Locking %p>>", m_pMutex);
+        //ISE_DEBUG_TRACE("CIseSectionLock::Locking %p>>", m_pMutex);
         pthread_mutex_lock(m_pMutex);
 
-        ISE_DEBUG_TRACE("CIseSectionLock::Locked %p>>", m_pMutex);
+        //ISE_DEBUG_TRACE("CIseSectionLock::Locked %p>>", m_pMutex);
     }
 
     ISE_VOID CIseSectionLock::Leave()
     {
-        ISE_DEBUG_TRACE("CIseSectionLock::Leaveing %p>>", m_pMutex);
+        //ISE_DEBUG_TRACE("CIseSectionLock::Leaveing %p>>", m_pMutex);
         ISE_ASSERT(m_pMutex, "Invalid Lock!");
 
         pthread_mutex_unlock(m_pMutex);
-        ISE_DEBUG_TRACE("CIseSectionLock::Leaved %p>>", m_pMutex);
+        //ISE_DEBUG_TRACE("CIseSectionLock::Leaved %p>>", m_pMutex);
     }
 
     ISE_BOOL CIseSectionLock::TryEnter()
